@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Inventario · Arsa Bodegas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=Archivo+Narrow:wght@600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="/_comun/base.css">
+<style>
+/* Inventario privado de patio: mismos colores de Arsa Bodegas (beige de lámina y negro de marco) */
+:root{
+  --bg:#F4EFE5; --surface:#FFFDF8; --fg:#141414; --muted:#5F5A52; --line:#DDD2BE; --accent:#141414; --accent-ink:#F4EFE5;
+  --beige:#E2D4BA; --rust:#9A4B2A; --ok:#2F6B3A; --warn:#9A6A00;
+  --display:"Archivo Narrow","Arial Narrow",Arial,sans-serif; --body:"Archivo","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --h1-track:-.005em; --radius:6px; color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151310;--surface:#1E1B17;--fg:#F1EBE0;--muted:#ABA293;--line:#36312A;--accent:#E2D4BA;--accent-ink:#151310;--beige:#4A4234;--rust:#D98A62;--ok:#7CC48A;--warn:#E0B44C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#151310;--surface:#1E1B17;--fg:#F1EBE0;--muted:#ABA293;--line:#36312A;--accent:#E2D4BA;--accent-ink:#151310;--beige:#4A4234;--rust:#D98A62;--ok:#7CC48A;--warn:#E0B44C;color-scheme:dark}
+body{background:var(--bg)}
+.cand{max-width:420px;display:grid;gap:12px;margin-top:20px}
+input[type=password],input[type=search]{font:500 1rem var(--mono);padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--fg);width:100%;box-sizing:border-box}
+.err{color:var(--rust);font-weight:600;min-height:1.2em}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:12px;margin:18px 0}
+.kpis button{all:unset;cursor:pointer;border-top:3px solid var(--fg);padding-top:8px;display:grid;gap:2px}
+.kpis button[aria-pressed="true"]{border-color:var(--rust)}
+.kpis b{font:700 1.7rem/1 var(--display)}
+.kpis span{font-size:.82rem;color:var(--muted)}
+.lista{display:grid;gap:8px;margin-top:12px}
+.fila{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.fila .id{font:600 1rem var(--mono);letter-spacing:.02em}
+.fila .sub{grid-column:1/-1;font-size:.84rem;color:var(--muted);overflow-wrap:anywhere}
+.tag{font:600 .72rem var(--body);padding:3px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.tag.ok{color:var(--ok)}.tag.no{color:var(--rust)}.tag.rv{color:var(--warn)}.tag.sa{color:var(--muted)}
+dialog{border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);padding:0;width:min(560px,calc(100vw - 32px));max-height:85vh}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dl{padding:18px;display:grid;gap:12px}
+.dl h3{font:700 1.4rem var(--mono);margin:0}
+.ped{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px}
+.ped a{overflow-wrap:anywhere}
+.mas{margin-top:14px}
+.barra{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;color:var(--muted);font-size:.85rem}
+</style>
+<script>window.SITIO={morse:'INVENTARIO',t:{
+ h1:{es:'Inventario de contenedores',en:'Container inventory',fr:'Inventaire des conteneurs',pt:'Inventário de contêineres',it:'Inventario container',de:'Containerbestand',zh:'集装箱库存',ja:'コンテナ在庫',ko:'컨테이너 재고',ar:'مخزون الحاويات',ru:'Учёт контейнеров',hi:'कंटेनर इन्वेंटरी'},
+ priv:{es:'Acceso privado para empleados. Los datos viajan cifrados y solo se abren en este dispositivo con la clave.',en:'Private staff access. Data is encrypted and only opens on this device with the key.',fr:'Accès privé du personnel. Les données sont chiffrées et ne s’ouvrent qu’avec la clé.',pt:'Acesso privado para funcionários. Os dados são criptografados e só abrem com a chave.',it:'Accesso riservato al personale. I dati sono cifrati e si aprono solo con la chiave.',de:'Privater Zugang für Mitarbeiter. Daten sind verschlüsselt und öffnen sich nur mit dem Schlüssel.',zh:'员工专用。数据已加密，仅可凭密钥在本设备打开。',ja:'従業員専用。データは暗号化され、鍵でのみ開けます。',ko:'직원 전용. 데이터는 암호화되어 키로만 열립니다.',ar:'دخول خاص بالموظفين. البيانات مشفرة ولا تُفتح إلا بالمفتاح.',ru:'Доступ только для сотрудников. Данные зашифрованы и открываются ключом.',hi:'केवल कर्मचारियों के लिए। डेटा एन्क्रिप्टेड है और केवल कुंजी से खुलता है।'},
+ abrir:{es:'Abrir inventario',en:'Open inventory',fr:'Ouvrir',pt:'Abrir inventário',it:'Apri inventario',de:'Öffnen',zh:'打开库存',ja:'在庫を開く',ko:'재고 열기',ar:'فتح المخزون',ru:'Открыть',hi:'इन्वेंटरी खोलें'},
+ buscar:{es:'Buscar contenedor, pedimento o cliente',en:'Search container, entry or customer',fr:'Chercher conteneur, déclaration ou client',pt:'Buscar contêiner, pedimento ou cliente',it:'Cerca container, bolla o cliente',de:'Container, Zollanmeldung oder Kunde suchen',zh:'搜索集装箱、报关单或客户',ja:'コンテナ・申告・顧客を検索',ko:'컨테이너·신고서·고객 검색',ar:'ابحث عن حاوية أو بيان أو عميل',ru:'Поиск контейнера, декларации или клиента',hi:'कंटेनर, घोषणा या ग्राहक खोजें'}
+}};</script>
+<script src="/_comun/comun.js" defer></script>
+</head>
+<body>
+<header class="bar"><div class="in">
+  <a class="brand" href="/">ARSA BODEGAS<sup>©</sup></a>
+  <nav class="secc" aria-label="Secciones"><a href="/">Inicio</a><a href="/#clientes">Clientes</a></nav>
+  <div class="tools"><button type="button" class="morse" data-morse="INVENTARIO">· — ·</button><select id="lang" aria-label="Idioma"></select></div>
+</div></header>
+
+<main>
+<section><div class="in">
+  <p class="eyebrow">ContenedorEns© · Arsa Bodegas© · Empleados</p>
+  <h1 data-t="h1">Inventario de contenedores</h1>
+  <p class="lead" data-t="priv">Acceso privado para empleados. Los datos viajan cifrados y solo se abren en este dispositivo con la clave.</p>
+
+  <form class="cand" id="fcl" autocomplete="off">
+    <input type="password" id="clave" placeholder="Clave de empleados" aria-label="Clave de empleados" autocomplete="current-password" required>
+    <label style="font-size:.85rem;color:var(--muted)"><input type="checkbox" id="rec"> Recordar en esta pestaña</label>
+    <button class="btn" type="submit" data-t="abrir">Abrir inventario</button>
+    <div class="err" id="err" role="alert"></div>
+  </form>
+
+  <div id="app" hidden>
+    <div class="barra"><span id="gen"></span><span><a id="vivo" href="#" target="_blank" rel="noopener">Sistema en vivo (alta y visor con resaltado) ↗</a> · <a href="#" id="salir">Cerrar</a></span></div>
+    <div class="kpis" id="kpis"></div>
+    <input type="search" id="q" data-t-ph="buscar" placeholder="Buscar contenedor, pedimento o cliente" aria-label="Buscar">
+    <div class="lista" id="lista"></div>
+    <button class="btn ghost mas" id="mas" hidden>Ver más</button>
+  </div>
+</div></section>
+</main>
+
+<dialog id="det"><div class="dl" id="detin"></div></dialog>
+
+<footer class="pie"><div class="in">
+  <div class="red" id="red" aria-label="Red de sitios"></div>
+  <p>ContenedorEns© y Arsa Bodegas© son obras registradas en Safe Creative. Los pedimentos contienen datos fiscales: uso interno, no se comparten. © <span data-anio>2026</span> Víctor Hugo Ramírez Salgado. <span data-t="derechos">Todos los derechos reservados.</span> <span id="idioma-nota"></span></p>
+</div></footer>
+
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+let D=null, filtro='todos', vista=60;
+
+async function descifrar(clave){
+  const r=await fetch('datos.cifrado.json',{cache:'no-store'});
+  if(!r.ok) throw new Error('Aún no hay datos publicados.');
+  const j=await r.json();
+  const k0=await crypto.subtle.importKey('raw',new TextEncoder().encode(clave),'PBKDF2',false,['deriveKey']);
+  const k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(j.salt),iterations:j.it||150000,hash:'SHA-256'},k0,{name:'AES-GCM',length:256},false,['decrypt']);
+  try{ return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(j.iv)},k,b64(j.ct)))); }
+  catch(e){ throw new Error('Clave incorrecta.'); }
+}
+
+const FILTROS={
+  todos:{n:'Contenedores',f:c=>true},
+  conped:{n:'Con pedimento',f:c=>c.p.length>0},
+  sinped:{n:'Sin pedimento',f:c=>!c.p.length&&!c.rev},
+  rev:{n:'Por revisar',f:c=>c.rev||c.e==='pendiente'},
+  salida:{n:'Con salida',f:c=>c.mov&&c.mov.e==='salida'}
+};
+
+function etiqueta(c){
+  if(c.rev||c.e==='pendiente') return '<span class="tag rv">Revisar</span>';
+  if(c.mov&&c.mov.e==='salida') return '<span class="tag sa">Salida</span>';
+  return c.p.length?'<span class="tag ok">Pedimento</span>':'<span class="tag no">Sin pedimento</span>';
+}
+
+function pinta(){
+  const q=$('q').value.trim().toUpperCase().replace(/[\s.\-]/g,'');
+  const qq=$('q').value.trim().toLowerCase();
+  let L=D.contenedores.filter(FILTROS[filtro].f);
+  if(q) L=L.filter(c=>c.id.includes(q)||c.p.some(p=>p.includes(q))||(c.mov&&(c.mov.cl.toLowerCase().includes(qq)||c.mov.fo.toUpperCase().includes(q)))||c.de.toLowerCase().includes(qq));
+  $('lista').innerHTML=L.slice(0,vista).map((c,i)=>`<button class="fila" data-id="${esc(c.id)}"><span class="id">${esc(c.id)}</span>${etiqueta(c)}<span class="sub">${c.p.length?c.p.map(p=>esc(D.pedimentos[p]?.f||p)).join(' · '):esc(c.de)}${c.mov?' · '+esc(c.mov.m+' '+c.mov.cl):''}</span></button>`).join('')||'<p class="lead">Sin resultados.</p>';
+  $('mas').hidden=L.length<=vista; $('mas').textContent=`Ver más (${L.length-vista})`;
+}
+
+function kpis(){
+  $('kpis').innerHTML=Object.entries(FILTROS).map(([k,v])=>`<button aria-pressed="${k===filtro}" data-f="${k}"><b class="num">${D.contenedores.filter(v.f).length.toLocaleString('es-MX')}</b><span>${v.n}</span></button>`).join('');
+}
+
+function detalle(id){
+  const c=D.contenedores.find(x=>x.id===id); if(!c) return;
+  const kg=n=>n?n.toLocaleString('es-MX')+' kg':'—';
+  const peds=c.p.map(n=>{const p=D.pedimentos[n]||{f:n,pdf:[]};return `<div class="ped"><b class="mono">${esc(p.f)}</b><span style="color:var(--muted);font-size:.85rem">${esc([p.clave&&('Clave '+p.clave),p.pago&&('Pago '+p.pago),p.c&&(p.c+' contenedores')].filter(Boolean).join(' · '))}</span>${(p.pdf||[]).map(a=>`<a href="${esc(a.u)}" target="_blank" rel="noopener">PDF: ${esc(a.a)} ↗</a>`).join('')}</div>`;}).join('')||'<p>Sin pedimento ligado. Pídelo al importador o al agente aduanal y déjalo en Dropbox /Pedimentos; se liga solo al día siguiente.</p>';
+  $('detin').innerHTML=`<h3>${esc(c.id)}</h3>${etiqueta(c)}
+  <dl class="kv"><dt>Tipo</dt><dd>${esc(c.t||'—')}</dd><dt>Tara</dt><dd>${kg(c.tara)}</dd><dt>Carga útil</dt><dd>${kg(c.carga)}</dd><dt>Peso máx.</dt><dd>${kg(c.max)}</dd><dt>Capacidad</dt><dd>${c.cap?c.cap+' m³':'—'}</dd><dt>Ubicación</dt><dd>${esc(c.ub||'—')}</dd><dt>Alta</dt><dd>${esc(c.alta)} · ${esc(c.o||'')}</dd><dt>Nota</dt><dd>${esc([c.de,c.no].filter(Boolean).join(' · ')||'—')}</dd>${c.mov?`<dt>Último movimiento</dt><dd>${esc(c.mov.e+' · '+c.mov.m+' · '+c.mov.cl+(c.mov.rfc?' ('+c.mov.rfc+')':'')+' · '+c.mov.fe+' · folio '+c.mov.fo+(c.mov.fa?' · factura '+c.mov.fa:''))}</dd>`:''}</dl>
+  <h4 style="margin:0">Pedimentos</h4>${peds}
+  <p style="font-size:.8rem;color:var(--muted)">Los PDF abren en el repositorio privado de GitHub (requiere tu sesión). El visor con el número resaltado está en el sistema en vivo.</p>
+  <div class="btns"><a class="btn" href="${esc(D.vivo)}" target="_blank" rel="noopener">Visor con resaltado ↗</a><button class="btn ghost" id="cerrar">Cerrar</button></div>`;
+  $('det').showModal(); $('cerrar').onclick=()=>$('det').close();
+}
+
+async function entrar(clave){
+  $('err').textContent='Abriendo…';
+  try{
+    D=await descifrar(clave);
+    if($('rec').checked){try{sessionStorage.setItem('arsa_inv',clave)}catch(e){}}
+    $('fcl').hidden=true; $('app').hidden=false; $('err').textContent='';
+    $('gen').textContent='Datos al '+new Date(D.gen).toLocaleString('es-MX',{dateStyle:'medium',timeStyle:'short'})+' · '+Object.keys(D.pedimentos).length+' pedimentos';
+    $('vivo').href=D.vivo; kpis(); pinta();
+  }catch(e){ $('err').textContent=e.message; }
+}
+
+$('fcl').addEventListener('submit',e=>{e.preventDefault();entrar($('clave').value);});
+$('q').addEventListener('input',()=>{vista=60;pinta();});
+$('mas').addEventListener('click',()=>{vista+=120;pinta();});
+$('kpis').addEventListener('click',e=>{const b=e.target.closest('button[data-f]');if(!b)return;filtro=b.dataset.f;vista=60;kpis();pinta();});
+$('lista').addEventListener('click',e=>{const b=e.target.closest('.fila');if(b)detalle(b.dataset.id);});
+$('det').addEventListener('click',e=>{if(e.target===$('det'))$('det').close();});
+$('salir').addEventListener('click',e=>{e.preventDefault();try{sessionStorage.removeItem('arsa_inv')}catch(x){}location.reload();});
+try{const s=sessionStorage.getItem('arsa_inv');if(s){$('rec').checked=true;entrar(s);}}catch(e){}
+})();
+</script>
+</body>
+</html>

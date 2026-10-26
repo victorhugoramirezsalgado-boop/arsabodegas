@@ -1,0 +1,52 @@
+/* Sitios VHRS · estructura común. Cada sitio define sus tokens (--bg, --fg, --muted, --line, --surface, --accent, --accent-ink, --display, --body, --mono). */
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+img{max-width:100%}
+.in{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .in{display:flex;align-items:center;gap:12px;min-height:60px;flex-wrap:wrap;padding-block:8px}
+.brand{font:var(--brand-weight,700) 1.15rem/1 var(--display);letter-spacing:var(--brand-track,.01em);color:var(--fg);text-decoration:none;margin-right:auto;white-space:nowrap}
+.brand sup{font-size:.55em;color:var(--muted)}
+nav.secc{display:flex;gap:2px;flex-wrap:wrap;order:3;width:100%}
+@media (min-width:860px){nav.secc{order:0;width:auto}}
+nav.secc a{font:600 .82rem var(--body);color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:999px}
+nav.secc a:hover,nav.secc a[aria-current]{color:var(--fg);background:var(--surface)}
+.tools{display:flex;gap:8px;align-items:center}
+.tools select{font:500 .82rem var(--body);color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 10px;max-width:130px}
+.morse{font:600 .66rem var(--mono);letter-spacing:.12em;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 10px;cursor:pointer;white-space:nowrap}
+.morse:hover,.morse.on{color:var(--accent);border-color:var(--accent)}
+section{padding-block:clamp(40px,7vw,84px)}
+section+section{border-top:1px solid var(--line)}
+.eyebrow{font:600 .72rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.2rem,6.4vw,4.4rem);font-weight:var(--h1-weight,700);letter-spacing:var(--h1-track,-.01em)}
+h2{font-size:clamp(1.6rem,3.6vw,2.4rem);font-weight:var(--h2-weight,700)}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}
+.lead{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--muted);max-width:60ch;margin-top:16px}
+.stack{display:grid;gap:14px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;margin-top:28px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius,12px);padding:20px;display:grid;gap:8px;align-content:start;min-width:0}
+.card p{color:var(--muted);font-size:.95rem}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 .95rem var(--body);text-decoration:none;padding:12px 18px;border-radius:var(--radius,10px);background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--fg)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;margin:0}
+.kv dt{font:600 .74rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.kv dd{margin:0}
+.num{font:600 1.8rem/1 var(--mono);font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+.sel{user-select:all}
+.frame{width:100%;border:1px solid var(--line);border-radius:var(--radius,12px);background:var(--surface);display:block}
+footer.pie{border-top:1px solid var(--line);padding-block:28px 40px;font-size:.84rem;color:var(--muted)}
+footer.pie .in{display:grid;gap:14px}
+.red{display:flex;flex-wrap:wrap;gap:6px 14px}
+.red a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
+.red a:hover{color:var(--fg)}
+[dir="rtl"] .brand{margin-right:0;margin-left:auto}

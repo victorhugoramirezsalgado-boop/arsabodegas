@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Receptor Morse · VHRS</title>
+<meta name="description" content="Receptor de código Morse a la escucha: decodifica a texto lo que oye el micrófono, un archivo de audio o tus toques. Funciona en el navegador, sin enviar audio a internet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/_comun/base.css">
+<style>
+:root{--bg:#F3F1EC;--surface:#FFFFFF;--fg:#151515;--muted:#5D5A55;--line:#D9D4CA;--accent:#151515;--accent-ink:#F3F1EC;--rust:#B4441B;
+  --display:"IBM Plex Sans",system-ui,sans-serif;--body:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--radius:8px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121212;--surface:#1B1B1B;--fg:#EDEAE4;--muted:#A39F98;--line:#33312D;--accent:#EDEAE4;--accent-ink:#121212;--rust:#F08A5D;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121212;--surface:#1B1B1B;--fg:#EDEAE4;--muted:#A39F98;--line:#33312D;--accent:#EDEAE4;--accent-ink:#121212;--rust:#F08A5D;color-scheme:dark}
+main{padding-block:24px 40px}
+</style>
+<script>window.SITIO={morse:'SOS',t:{}};</script>
+<script src="/_comun/comun.js" defer></script>
+<script src="/_comun/morse-motor.js" defer></script>
+<script src="/_comun/receptor.js" defer></script>
+</head>
+<body>
+<header class="bar"><div class="in">
+  <a class="brand" href="/">VHRS · RX<sup>©</sup></a>
+  <div class="tools"><button type="button" class="morse" data-morse="SOS">· — ·</button><select id="lang" aria-label="Idioma"></select></div>
+</div></header>
+<main><div class="in" id="rx"></div></main>
+<footer class="pie"><div class="in">
+  <nav class="red" id="red" aria-label="Red de sitios"></nav>
+  <p>© <span data-anio>2026</span> Víctor Hugo Ramírez Salgado. <span data-t="derechos">Todos los derechos reservados.</span></p>
+</div></footer>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  VHRSReceptor.pagina(document.getElementById('rx'));
+  // el botón RX de la barra no hace falta en esta página
+  setTimeout(()=>document.querySelectorAll('.bar .rx').forEach(b=>b.remove()),0);
+});
+</script>
+</body>
+</html>
