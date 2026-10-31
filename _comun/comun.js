@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     const r=document.createElement('button');r.type='button';r.className='morse rx';r.textContent='RX ·−·';r.title='Receptor Morse';r.setAttribute('aria-label','Receptor Morse');
     r.onclick=receptor;b.after(r);});
   const red=document.getElementById('red');if(red)red.innerHTML=RED.filter(([d])=>d!==location.hostname.replace(/^www\./,'')).map(([d,n])=>`<a href="https://${d}/">${n}</a>`).join('');
+  // Correo de contacto del sitio (llega al Gmail del titular por reenvío)
+  const CORREO={'victorhugoramirezsalgado.com':['vhrs','victorhugoramirezsalgado.com'],'arsabodegas.com':['arsabodegas','arsabodegas.com'],'xn--intertopa-n5a.com':['intertopia','intertopía.com'],'xn--1ntertopa-n5a.com':['1ntertopia','1ntertopía.com'],'xn--econotopa-n5a.com':['econotopia','econotopía.com'],'cubo33.com':['cubo33','cubo33.com'],'codigocubico.com':['codigocubico','codigocubico.com'],'tcontenedores.com':['tcontenedores','tcontenedores.com'],'sosistem.com':['sosistem','sosistem.com']};
+  const host=location.hostname.replace(/^www\./,''),cc=CORREO[host];
+  if(cc&&red&&!document.getElementById('correo-sitio')){const p=document.createElement('p');p.id='correo-sitio';p.className='correo-sitio';p.innerHTML=`✉ <a href="mailto:${cc[0]}@${host}">${cc[0]}@${cc[1]}</a>`;red.after(p);}
   document.querySelectorAll('[data-anio]').forEach(e=>e.textContent=new Date().getFullYear());
   apply();
   // dentro de un marco (panel o Squarespace): avisa la altura

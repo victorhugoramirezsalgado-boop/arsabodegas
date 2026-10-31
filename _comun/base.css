@@ -50,3 +50,4 @@ footer.pie .in{display:grid;gap:14px}
 .red a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
 .red a:hover{color:var(--fg)}
 [dir="rtl"] .brand{margin-right:0;margin-left:auto}
+.correo-sitio{margin:.6em 0 0;font-size:.95em}.correo-sitio a{font-weight:700}
